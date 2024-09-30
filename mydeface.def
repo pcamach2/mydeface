@@ -1,0 +1,32 @@
+Bootstrap: docker
+From: ubuntu:22.04
+
+%files
+    . /opt/mydeface
+
+%environment
+    export DEBIAN_FRONTEND=noninteractive
+    export FSLDIR=/usr/local/fsl
+    export PATH=/usr/local/fsl/bin:/opt/mydeface:$PATH
+    export FSLMULTIFILEQUIT=TRUE
+    export POSSUMDIR=/usr/local/fsl
+    export LD_LIBRARY_PATH=/usr/local/fsl/lib:$LD_LIBRARY_PATH
+    export FSLOUTPUTTYPE=NIFTI_GZ
+
+%post
+    apt-get update && \
+    apt-get install -y \
+    wget \
+    curl \
+    ca-certificates \
+    gnupg \
+    lsb-release \
+    python3 \
+    python3-pip
+    cd /opt && wget https://fsl.fmrib.ox.ac.uk/fsldownloads/fslinstaller.py && \
+    python3 fslinstaller.py -V 6.0.7.4 -d /usr/local/fsl && \
+    rm fslinstaller.py
+    apt-get clean && rm -rf /var/lib/apt/lists/
+
+%runscript
+    exec python /opt/mydeface/mydeface.py "$@"

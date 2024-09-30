@@ -15,9 +15,11 @@ RUN apt-get update && \
     python3 \
     python3-pip
 
-# Install FSL version 6.0.7
-RUN wget -qO- https://fsl.fmrib.ox.ac.uk/fsldownloads/fslconda/releases/fsl-6.0.7.4_linux-64.yml | tar xvz -C /usr/local/fsl
-
+# Download and install FSL version 6.0.7.4 using fslinstaller.py
+RUN wget https://fsl.fmrib.ox.ac.uk/fsldownloads/fslinstaller.py && \
+    python3 fslinstaller.py -V 6.0.7.4 -d /usr/local/fsl && \
+    rm fslinstaller.py
+    
 # Set FSL environment variables
 ENV FSLDIR=/usr/local/fsl \
     PATH=/usr/local/fsl/bin:$PATH \

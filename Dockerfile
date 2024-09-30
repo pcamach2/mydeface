@@ -37,4 +37,6 @@ WORKDIR /opt/mydeface
 # Clean up package lists to reduce image size
 RUN apt-get clean && rm -rf /var/lib/apt/lists/
 
+ENV PATH="$PATH:/opt/mydeface"
+
 CMD ["python", "mydeface.py", "$@"]

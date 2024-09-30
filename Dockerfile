@@ -10,12 +10,10 @@ RUN apt-get update && \
     wget \
     curl \
     ca-certificates \
-    sudo \
     gnupg \
     lsb-release \
     python3 \
-    python3-pip \
-    matlab-support
+    python3-pip
 
 # Install FSL version 6.0.7
 RUN wget -qO- https://fsl.fmrib.ox.ac.uk/fsldownloads/fslconda/releases/fsl-6.0.7.4_linux-64.yml | tar xvz -C /usr/local/fsl
@@ -37,4 +35,4 @@ WORKDIR /opt/mydeface
 # Clean up package lists to reduce image size
 RUN apt-get clean && rm -rf /var/lib/apt/lists/
 
-CMD ["python3", "mydeface.py", "$@"]
+CMD ["python", "mydeface.py", "$@"]
